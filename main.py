@@ -1,5 +1,5 @@
 from core.log_watcher import LogWatcher
-LOG_PATH = 'test.txt'
+LOG_PATH = '/var/log/syslog'
 
 
 seek_previous_lines = True

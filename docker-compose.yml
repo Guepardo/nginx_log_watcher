@@ -1,0 +1,9 @@
+version: "3"
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 4000:80
+    volumes:
+      - ./docker/ingest_api.conf:/etc/nginx/conf.d/ingest_api.conf

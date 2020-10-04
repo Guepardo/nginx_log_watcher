@@ -1,10 +1,11 @@
 import os
 from time import sleep
+from workers.sender import Sender
 
 
 class LogWatcher:
     READ_FILE_FREQUECY_IN_SECONDS = 1
-    LIMIT_BATCH_SIZE = 1000
+    LIMIT_BATCH_SIZE = 10
 
     def __init__(self, log_path, seek_previous_lines=True):
         self.log_path = log_path
@@ -29,7 +30,7 @@ class LogWatcher:
                     self.logs.append(line)
 
                 if len(self.logs) > self.LIMIT_BATCH_SIZE:
-                    print self.logs
+                    Sender(self.logs).start()
                     self.logs = []
 
                 sleep(self.READ_FILE_FREQUECY_IN_SECONDS)
