@@ -1,9 +1,15 @@
 version: "3"
 services:
   web:
-    image: nginx:latest
-    container_name: nginx
+    build: ./docker
+    image: ngnix_ingest
+    container_name: ngnix_ingest
     ports:
       - 4000:80
+    environment:
+      - PYTHONUNBUFFERED=0
     volumes:
-      - ./docker/ingest_api.conf:/etc/nginx/conf.d/ingest_api.conf
+      - ./docker/ingest_api.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./:/home/app/
