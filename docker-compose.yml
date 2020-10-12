@@ -1,15 +1,26 @@
 version: "3"
 services:
   web:
-    build: ./docker
+    build: ./docker/log_watcher
     image: ngnix_ingest
-    container_name: ngnix_ingest
     ports:
-      - 4000:80
+      - 4000-4010:80
     environment:
       - PYTHONUNBUFFERED=0
     volumes:
-      - ./docker/ingest_api.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf
-      - ./entrypoint.sh:/entrypoint.sh
-      - ./:/home/app/
+      - ./docker/log_watcher/ingest_api.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/log_watcher/nginx.conf:/etc/nginx/nginx.conf
+      - ./log_watcher/entrypoint.sh:/entrypoint.sh
+      - ./log_watcher/:/home/app/
+
+  aggregator:
+    build: ./docker/aggregator
+    image: aggregator
+    container_name: aggregator
+    ports:
+      - 5000:5000
+    environment:
+      - PYTHONUNBUFFERED=0
+    volumes:
+      - ./aggregator/entrypoint.sh:/entrypoint.sh
+      - ./aggregator/:/home/app/

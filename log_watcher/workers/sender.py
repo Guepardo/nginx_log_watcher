@@ -1,6 +1,9 @@
 from threading import Thread
 from time import sleep
 from urlparse import parse_qs
+from requests import post
+from random import random
+import json
 
 
 class Sender(Thread):
@@ -33,8 +36,12 @@ class Sender(Thread):
                 "arg2": querystring['arg2'][0]
             }
 
-            data[time][transmission_id][audience_id] = audience_data
+            data[time][transmission_id][str(random())] = audience_data
 
-        print("LAST LINE [%s]" % self.logs[0])
-        print(data)
-        print("--------")
+        headers = {'content-type': 'application/json'}
+        post('http://aggregator:5000/ingest',
+             headers=headers, data=json.dumps(data))
+        print("sendinded.....")
+        # print("LAST LINE [%s]" % self.logs[0])
+        # print(data)
+        # print("--------")

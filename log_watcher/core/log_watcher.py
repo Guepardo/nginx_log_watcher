@@ -4,7 +4,7 @@ from workers.sender import Sender
 
 
 class LogWatcher:
-    READ_FILE_FREQUECY_IN_SECONDS = 5
+    READ_FILE_FREQUECY_IN_SECONDS = 30
 
     def __init__(self, log_path, seek_previous_lines=True):
         self.log_path = log_path
@@ -40,7 +40,7 @@ class LogWatcher:
 
             while True:
                 if self.log_file_changed():
-                    print("LOG FILE CHANGED")
+                    # print("LOG FILE CHANGED")
                     return last_log_file_pointer
 
                 line = arq.readline()
